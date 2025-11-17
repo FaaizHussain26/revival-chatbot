@@ -12,4 +12,22 @@ export default defineConfig({
       "zod/v4/core": "zod",
     },
   },
-});
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('production'),
+  },
+  build: {
+    lib: {
+      entry: 'src/main.tsx',
+      name: 'RevivalChatbot',
+      fileName: () => 'revival-chatbot.js',
+      formats: ['iife']
+    },
+    rollupOptions: {
+      output: {
+        inlineDynamicImports: true,
+        assetFileNames: 'assets/[name][extname]'
+      }
+    },
+    cssCodeSplit: false
+  }
+})

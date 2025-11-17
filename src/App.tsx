@@ -4,7 +4,7 @@ import Main from "./pages";
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="light" storageKey="easydiymurphybed-theme">
+    <ThemeProvider defaultTheme="light" storageKey="revival-chatbot-theme">
       <ChatWidget />
       <Main />
     </ThemeProvider>

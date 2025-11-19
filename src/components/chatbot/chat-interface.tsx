@@ -61,7 +61,7 @@ export default function ChatInterface() {
   };
 
   const handleSend = async () => {
-    if (!input.trim() || isTyping || !chatId || !currentCategory) {
+    if (!input.trim() || isTyping || !currentCategory) {
       return;
     }
 
@@ -89,6 +89,7 @@ export default function ChatInterface() {
       );
 
       setIsTyping(false);
+      setChatId(response?.data?.chatId as string);
 
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -142,7 +143,7 @@ export default function ChatInterface() {
         id: (Date.now() + 1).toString(),
         role: "assistant",
         content:
-          response?.message ||
+          response?.data?.content ||
           `You selected: ${option.text}. I'm here to help you with that.`,
         category: category,
       };

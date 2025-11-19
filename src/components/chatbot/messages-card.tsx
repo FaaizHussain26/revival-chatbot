@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { MessageItem } from "./message-item";
-import { TypingIndicator } from "./typing-indicator";
+import TypingIndicator from "./typing-indicator";
 
 interface ChatOption {
   id: string;

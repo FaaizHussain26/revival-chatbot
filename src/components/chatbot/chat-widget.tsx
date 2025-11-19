@@ -1,21 +1,71 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import ChatInterface from "./chat-interface";
 import { AnimatePresence, motion } from "framer-motion";
+import { MessageSquare, Minus } from "lucide-react";
+import ChatInterface from "./chat-interface";
 
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
     <>
-      <Button
-        onClick={() => setIsOpen(!isOpen)}
-        size="icon"
-        variant="ghost"
-        className="h-21 w-21 rounded-full fixed bottom-6 right-6 shadow-lg z-50 bg-[#FF6600]"
+      <motion.div
+        className="fixed bottom-6 right-6 z-50"
+        whileTap={{ scale: 0.95 }}
       >
-        <img src="/assets/logo.webp" alt="logo" width={64} height={54} />
-      </Button>
+        <motion.div whileHover={{ scale: 1.05 }}>
+          <Button
+            onClick={() => setIsOpen(!isOpen)}
+            size="icon"
+            className="group relative h-16 w-16 rounded-full shadow-lg border-none 
+               bg-primary hover:bg-primary/90 transition-all duration-200 hover:shadow-xl overflow-hidden"
+          >
+            {/* Chat Icon - visible when closed */}
+            {!isOpen && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5, rotate: -180 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.5, rotate: 180 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                <img
+                  src="assets/chat-icon.png"
+                  className="h-7 w-7"
+                  alt="Chat"
+                />
+              </motion.div>
+            )}
+
+            {/* Down Arrow Icon - visible when open */}
+            {isOpen && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5, rotate: 180 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.5, rotate: -180 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="absolute inset-0 flex items-center justify-center"
+              >
+                <div className="bg-primary">
+                  <img
+                    src="assets/down-arrow.png"
+                    className="h-7 w-7"
+                    alt="Close"
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {/* Hover effect ring */}
+            <motion.div
+              className="absolute inset-0 rounded-full border-2 border-white pointer-events-none"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileHover={{ opacity: 0.5, scale: 1.1 }}
+              transition={{ duration: 0.3 }}
+            />
+          </Button>
+        </motion.div>
+      </motion.div>
 
       <AnimatePresence>
         {isOpen && (
@@ -24,50 +74,35 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-27 right-6 sm:right-8 w-[90vw] sm:w-[400px] md:w-[450px] h-[600px] 
-                      rounded-lg shadow-xl overflow-hidden z-40 bg-white border border-gray-200"
+            className="fixed bottom-24 right-6 sm:right-6 w-[90vw] sm:w-[200px] md:w-[450px] h-[600px] 
+                      rounded-2xl shadow-2xl overflow-hidden z-40 bg-background border border-border mb-1"
           >
-            <div className="px-6 py-4 bg-gradient-to-r from-[#FF6600] to-[#C49E78] flex flex-row items-center justify-between border-b gap-3">
+            {/* Header */}
+            <div className="px-6 py-4 flex flex-row items-center justify-between border-b bg-gradient-to-r from-[oklch(35.295%_0.11949_258.602)] to-[oklch(26%_0.11949_258.602)]">
               <div className="flex items-center gap-3">
-                <div className="relative">
-                  <img
-                    src="https://placehold.co/600x600?text=EasyDIY"
-                    alt="Virtual Assistant Avatar"
-                    className="h-12 w-12 rounded-full border-2 border-white/20"
-                  />
-                  <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-green-500 border-2 border-white"></div>
+                <div className="h-10 w-10 rounded-lg bg-white/10 flex items-center justify-center">
+                  <MessageSquare className="h-6 w-6 text-white" />
                 </div>
-                <div className="flex flex-col">
-                  <h2 className="text-white text-xl font-medium">
-                    EasyDIY Murphy
-                  </h2>
-                  <p className="text-gray-200 text-sm ">AI Support</p>
+                <div>
+                  <h3 className="text-white font-semibold">Chat with us</h3>
+                  <p className="text-white/80 text-xs">We're here to help</p>
                 </div>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setIsOpen(false)}
-                className="h-8 w-8 rounded-full text-white hover:bg-white/10"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setIsOpen(false)}
+                  className="h-8 w-8 rounded-full text-white hover:bg-white/30"
                 >
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </Button>
+                  <Minus className="h-5 w-5" />
+                </Button>
+              </div>
             </div>
-            <div className="flex-1 overflow-hidden h-[calc(100%-76px)]">
-              <ChatInterface inModal />
+
+            {/* Chat Interface */}
+            <div className="flex-1 overflow-hidden h-[calc(100%-72px)]">
+              <ChatInterface />
             </div>
           </motion.div>
         )}
